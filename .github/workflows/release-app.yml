@@ -11,23 +11,27 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
+
       - name: Validar tag vs tauri.conf.json
         shell: bash
         run: |
           CONF=$(node -p "require('./src-tauri/tauri.conf.json').version")
           TAG="${GITHUB_REF_NAME#app-v}"
           [ "$CONF" = "$TAG" ] || { echo "Tag ($TAG) != tauri.conf.json ($CONF)"; exit 1; }
+
       - uses: dtolnay/rust-toolchain@stable
+
       - run: npm ci
-        working-directory: src/app
+
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
         with:
-          projectPath: src/app
+          projectPath: "."
           tagName: ${{ github.ref_name }}
           releaseName: "NorteSp App ${{ github.ref_name }}"
           releaseDraft: false
