@@ -1,0 +1,66 @@
+name: NorteSP Discord Notifications
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Enviar atualização para o Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          REPO: ${{ github.repository }}
+          AUTHOR: ${{ github.actor }}
+          BRANCH: ${{ github.ref_name }}
+          COMMIT: ${{ github.event.head_commit.message }}
+          COMMIT_URL: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{
+            \"username\":\"NorteSp Roleplay\",
+            \"avatar_url\":\"https://nortesp.vercel.app/logo.png\",
+            \"embeds\":[
+              {
+                \"title\":\"🚀 Nova atualização publicada\",
+                \"description\":\"Uma nova atualização foi enviada para o repositório.\",
+                \"color\":16753920,
+                \"fields\":[
+                  {
+                    \"name\":\"📦 Projeto\",
+                    \"value\":\"$REPO\",
+                    \"inline\":true
+                  },
+                  {
+                    \"name\":\"🌿 Branch\",
+                    \"value\":\"$BRANCH\",
+                    \"inline\":true
+                  },
+                  {
+                    \"name\":\"👤 Desenvolvedor\",
+                    \"value\":\"$AUTHOR\",
+                    \"inline\":true
+                  },
+                  {
+                    \"name\":\"📝 Commit\",
+                    \"value\":\"$COMMIT\"
+                  },
+                  {
+                    \"name\":\"🔗 Commit\",
+                    \"value\":\"$COMMIT_URL\"
+                  }
+                ],
+                \"footer\":{
+                  \"text\":\"NorteSP • GitHub Actions\"
+                },
+                \"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+              }
+            ]
+          }" \
+          "$DISCORD_WEBHOOK"
