@@ -1,0 +1,251 @@
+@import "tailwindcss";
+:root {
+  --surface-hover: rgba(255, 255, 255, 0.08);
+}
+
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-hover);
+  border-radius: var(--radius-pill);
+}
+
+.scroll-dark {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: oklch(1 0 0 / 16%) transparent;
+}
+.scroll-dark::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-dark::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-dark::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 14%);
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+.scroll-dark:hover::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 26%);
+}
+.scroll-dark::-webkit-scrollbar-thumb:hover {
+  background: oklch(1 0 0 / 40%);
+}
+/* ---------- Mobile base ---------- */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overflow-x: clip;
+  overscroll-behavior-y: none;
+}
+
+button,
+[role="button"],
+a,
+summary,
+label,
+select {
+  touch-action: manipulation;
+}
+
+@media (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  [data-slot="table-container"] {
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  [data-slot="table"],
+  [data-slot="table-body"] {
+    display: block;
+  }
+
+  [data-slot="table-header"] {
+    display: none;
+  }
+
+  [data-slot="table-row"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 1rem;
+    margin-bottom: 0.625rem;
+    padding: 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: 0.875rem;
+    background: color-mix(in oklab, var(--card) 55%, transparent);
+  }
+
+  [data-slot="table-body"] > [data-slot="table-row"]:last-child {
+    margin-bottom: 0;
+  }
+
+  [data-slot="table-row"]:active {
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  [data-slot="table-cell"] {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  [data-slot="table-cell"]::before {
+    content: attr(data-label);
+    color: var(--muted-foreground);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  [data-slot="table-cell"][data-label=""]::before {
+    display: none;
+  }
+
+  [data-slot="table-cell"]:first-child,
+  [data-slot="table-cell"][data-label="Ação"],
+  [data-slot="table-cell"][data-label="Motivo"] {
+    grid-column: 1 / -1;
+  }
+
+  [data-slot="table-cell"][data-label="Ação"]::before {
+    display: none;
+  }
+}
+
+:root[data-theme="light"] {
+  --background: oklch(0.982 0.004 265);
+  --foreground: oklch(0.21 0.02 265);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.02 265);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.02 265);
+
+  --secondary: oklch(0.955 0.007 265);
+  --secondary-foreground: oklch(0.25 0.02 265);
+
+  --muted: oklch(0.96 0.006 265);
+  --muted-foreground: oklch(0.46 0.02 265);
+
+  --accent: oklch(0.56 0.14 165);
+  --accent-foreground: oklch(0.99 0.01 165);
+
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 25);
+
+  --border: oklch(0.2 0.03 265 / 10%);
+  --input: oklch(0.2 0.03 265 / 14%);
+
+  --chart-2: oklch(0.56 0.14 165);
+  --chart-3: oklch(0.55 0.17 262);
+  --chart-4: oklch(0.6 0.2 25);
+  --chart-5: oklch(0.58 0.15 320);
+
+  --sidebar: oklch(0.965 0.005 265);
+  --sidebar-foreground: oklch(0.21 0.02 265);
+  --sidebar-accent: oklch(0.93 0.008 265);
+  --sidebar-accent-foreground: oklch(0.21 0.02 265);
+  --sidebar-border: oklch(0.2 0.03 265 / 10%);
+
+  --surface-hover: rgb(15 23 42 / 0.06);
+  --border-strong: oklch(0.2 0.03 265 / 18%);
+  --shadow-card: 0 1px 2px oklch(0.2 0.03 265 / 8%), 0 1px 3px oklch(0.2 0.03 265 / 6%);
+  --shadow-pop: 0 10px 28px oklch(0.2 0.03 265 / 16%);
+
+  --color-white: oklch(0.25 0.03 265);
+}
+
+:root[data-theme="light"] body {
+  color-scheme: light;
+}
+
+/* Usos "brancos de verdade" (texto sobre botão colorido, polegar do switch). */
+:root[data-theme="light"] .text-white {
+  color: #fff;
+}
+:root[data-theme="light"] .bg-white {
+  background-color: #fff;
+}
+
+/* Cores fixas (chips em hex) ficam fortes demais/claras no fundo branco. */
+:root[data-theme="light"] [class*="text-[#"] {
+  filter: brightness(0.74) saturate(1.15);
+}
+
+:root[data-theme="light"] .glass {
+  box-shadow: inset 0 1px 0 0 oklch(1 0 0 / 60%);
+}
+
+/* Raio dos cantos */
+:root[data-radius="sharp"] {
+  --radius: 0.4rem;
+}
+:root[data-radius="round"] {
+  --radius: 1.15rem;
+}
+
+/* Densidade: encolhe toda a escala de espaçamento do Tailwind */
+:root[data-density="compact"] {
+  --spacing: 0.222rem;
+}
+
+/* Tamanho da fonte: tudo é rem, então escala a interface inteira */
+:root[data-font="small"] {
+  font-size: 93.75%;
+}
+:root[data-font="large"] {
+  font-size: 112.5%;
+}
+
+/* Transição suave ao trocar de tema */
+:root[data-theme-transition] *,
+:root[data-theme-transition] *::before,
+:root[data-theme-transition] *::after {
+  transition:
+    background-color 0.28s ease,
+    border-color 0.28s ease,
+    color 0.2s ease,
+    fill 0.2s ease,
+    box-shadow 0.28s ease !important;
+}
+
+/* Reduzir movimento (preferência salva ou do sistema) */
+:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}

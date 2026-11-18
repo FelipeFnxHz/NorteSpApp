@@ -1,0 +1,109 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  min-width: 0; /* permite encolher dentro de flex/grid em vez de empurrar o layout */
+  font-size: 13px;
+}
+
+.field__label {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.field__error {
+  color: var(--red);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.field__hint {
+  color: var(--text-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+/* The ONLY element that ever draws a border/background for an input or
+   select — the inner control itself is always bare (see .input / .select
+   below). Previously `.select` carried its own border+background *too*,
+   so any <Select> rendered without an `icon` prop showed a double box
+   (shell border around a select that drew its own border again). */
+.input-shell,
+.select-shell {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  background: var(--surface-1);
+  border: 1px solid var(--input);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input-shell:focus-within,
+.select-shell:focus-within {
+  border-color: var(--primary-border);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.input-shell.is-error,
+.select-shell.is-error {
+  border-color: rgba(255, 95, 122, 0.4);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+.input {
+  text-overflow: ellipsis;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Em 16px o iOS não dá zoom ao focar o campo (o que desloca o layout). */
+@media (max-width: 640px) {
+  .input,
+  .select {
+    font-size: 16px;
+  }
+}
+
+.select {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  background: none;
+  color: var(--text);
+  border: none;
+  outline: none;
+  appearance: none;
+  padding-right: 1.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239aa0b4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  cursor: pointer;
+  /* Tells the browser this control sits on a dark surface, so its native
+     bits (the option dropdown, spin buttons, etc) render with light text
+     on a dark background instead of the OS's light-mode default. */
+  color-scheme: dark;
+}
+
+.select option {
+  background: var(--surface-1);
+  color: var(--text);
+}
