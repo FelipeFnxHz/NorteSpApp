@@ -16,7 +16,7 @@ jobs:
       - name: Validar tag vs tauri.conf.json
         shell: bash
         run: |
-          CONF=$(node -p "require('./src/app/src-tauri/tauri.conf.json').version")
+          CONF=$(node -p "require('./src-tauri/tauri.conf.json').version")
           TAG="${GITHUB_REF_NAME#app-v}"
           [ "$CONF" = "$TAG" ] || { echo "Tag ($TAG) != tauri.conf.json ($CONF)"; exit 1; }
       - uses: dtolnay/rust-toolchain@stable
